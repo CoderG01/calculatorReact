@@ -11,6 +11,8 @@ import AddIcon from '@mui/icons-material/Add';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import SelectInput from '@mui/material/Select/SelectInput';
 import CloseIcon from '@mui/icons-material/Close';
+import BackspaceIcon from '@mui/icons-material/Backspace';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 const bull = (
     <Box
       component="span"
@@ -22,20 +24,49 @@ const bull = (
 
 const Calculator = () => {
 
-const [inputValue, SetinputValue] = useState("");
+const [inputValue, SetinputValue] = useState("0");
 
 const getInput = (e) => {
-    console.log(e);
-    SetinputValue(inputValue.concat(e   ))
+    // let hasNumberOrNot = inputValue.includes("0","1","2","3","4","5","6","7","8","9")
+    // if (hasNumberOrNot) {
+        SetinputValue('')
+        SetinputValue(inputValue + e)
+        // SetinputValue(inputValue.concate(e))
+        // SetinputValue(`${inputValue}${e}`)
+        // console.log("type is : " + typeof(inputValue));
+    // }else{
+    //     alert('enter number first')
+    // }
+    
 }
 
 const clearAll = () => {
-    inputValue !== '' ? SetinputValue('') : alert('input field is empty')
+    inputValue !== '' ? SetinputValue('0') : SetinputValue('0') 
+    // inputValue !== '' ? SetinputValue('0') : alert('input field is empty')
     
 }
 const calculate = () => {
-    console.log("clicked");
-     SetinputValue(eval(inputValue).toString())
+    let hasOPeratOrNot = inputValue.includes("+","*",".","/","-")
+    console.log(hasOPeratOrNot);
+    if (inputValue !== "" || !hasOPeratOrNot) {
+        // console.log("clicked");
+        SetinputValue(eval(inputValue))
+        console.log(typeof(inputValue));    
+    }else
+    {
+        alert("input field is empty")
+    }
+    
+}
+const clearStepInmput = () => {
+    if (inputValue !== "") {
+        const inputLength = inputValue.length - 1;
+        console.log(inputLength);
+        SetinputValue(inputValue.substring(0,inputValue.length - 1))
+        // SetinputValue('0')
+    }else{
+        alert("input field is empty")
+    }
 }
 
   return (
@@ -50,13 +81,13 @@ const calculate = () => {
                     <Box direction="row" spacing={2} className="rounded-3 mt-3" p={3} pb={2} pt={0} pr={2}>
                         <div className="row py-2">
                             <div className="col-4 px-2">
-                                <Button variant="contained" disableElevation className='inputButton inputAction inputActionText text-uppercase pieIcon' >𝝅</Button>
+                                <Button variant="contained" disableElevation className='inputButton inputAction inputActionText text-uppercase fs-sm' onClick={clearAll}>AC</Button>
                             </div>
                             <div className="col-4 px-2">
-                                <Button variant="contained" disableElevation className='inputButton inputAction inputActionText text-uppercase'>x²</Button>
+                                <Button variant="contained" disableElevation className='inputButton inputAction inputActionText text-uppercase fixedHeight devidIcon' onClick={() => clearStepInmput()}><BackspaceIcon /></Button>
                             </div>
                             <div className="col-4 px-2">
-                                <Button variant="contained" disableElevation className='inputButton inputAction inputActionText text-uppercase' onClick={() => getInput("x")}><CloseIcon /></Button>
+                                <Button variant="contained" disableElevation className='inputButton inputAction inputActionText text-uppercase' onClick={() => getInput("*")}><CloseIcon /></Button>
                             </div>
                         </div>
                         <div className="row py-2">
@@ -95,13 +126,13 @@ const calculate = () => {
                         </div>
                         <div className="row py-2">
                             <div className="col-4 px-2">
-                                <Button variant="contained" disableElevation className='inputButton' onClick={() => getInput(".")} ><FiberManualRecordIcon style={{fontSize : "6px"}} /></Button>
+                                <Button variant="contained" disableElevation className='inputButton inputAction inputActionText text-uppercase fs-sm' onClick={clearAll}><DarkModeIcon /></Button>
                             </div>
                             <div className="col-4 px-2">
                                 <Button variant="contained" disableElevation className='inputButton' onClick={() => getInput("0")}>0</Button>
                             </div>
                             <div className="col-4 px-2">
-                                <Button variant="contained" disableElevation className='inputButton inputAction inputActionText text-uppercase fs-sm' onClick={clearAll}>Del</Button>
+                                <Button variant="contained" disableElevation className='inputButton inputAction inputActionText' onClick={() => getInput(".")} ><FiberManualRecordIcon style={{fontSize : "6px"}} /></Button>
                             </div>
                         </div>
                     </Box>
