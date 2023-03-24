@@ -1,70 +1,87 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import './main.css'
 import CalculateOutlinedIcon from '@mui/icons-material/CalculateOutlined';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import Grid from '@mui/material/Grid';
-import ClearIcon from '@mui/icons-material/Clear';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import SelectInput from '@mui/material/Select/SelectInput';
 import CloseIcon from '@mui/icons-material/Close';
 import BackspaceIcon from '@mui/icons-material/Backspace';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-const bull = (
-    <Box
-      component="span"
-      sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-    >
-      •
-    </Box>
-  );
+
 
 const Calculator = () => {
 
-const [inputValue, SetinputValue] = useState("0");
+const [inputValue, SetinputValue] = useState("");
+const [handleZero,SethandleZero] = useState(false)
+
+
 
 const getInput = (e) => {
-    // let hasNumberOrNot = inputValue.includes("0","1","2","3","4","5","6","7","8","9")
-    // if (hasNumberOrNot) {
-        SetinputValue('')
+    // let hasNumberOrNot = inputValue.includes("1","2","3","4","5","6","7","8","9")
+    // if (!hasNumberOrNot) {
+        // SetinputValue(inputValue.substring(1))
+        const removeZero = () => {
+            SetinputValue("")
+            console.log("om : " + inputValue);
+        }
+        removeZero()
+        console.log(inputValue);
         SetinputValue(inputValue + e)
         // SetinputValue(inputValue.concate(e))
         // SetinputValue(`${inputValue}${e}`)
         // console.log("type is : " + typeof(inputValue));
     // }else{
-    //     alert('enter number first')
+    //     alert('enter number first') 
     // }
     
 }
-
+   
 const clearAll = () => {
     inputValue !== '' ? SetinputValue('0') : SetinputValue('0') 
     // inputValue !== '' ? SetinputValue('0') : alert('input field is empty')
     
 }
 const calculate = () => {
-    let hasOPeratOrNot = inputValue.includes("+","*",".","/","-")
-    console.log(hasOPeratOrNot);
-    if (inputValue !== "" || !hasOPeratOrNot) {
-        // console.log("clicked");
+
+    //handling and error
+    try{
         SetinputValue(eval(inputValue))
-        console.log(typeof(inputValue));    
-    }else
-    {
-        alert("input field is empty")
+        // console.log(typeof(inputValue));   
     }
+    catch(err){
+        // console.log(err) 
+        SetinputValue("error")
+    }
+
+    // let hasOPeratOrNot = inputValue.includes("+","*",".","/","-")
+    // console.log(hasOPeratOrNot);
+    // if (inputValue !== "" || !hasOPeratOrNot) {
+    //     // console.log("clicked");
+    //     SetinputValue(eval(inputValue))
+    //     console.log(typeof(inputValue));    
+    // }else
+    // {
+    //     alert("input field is empty")
+    // }
     
 }
 const clearStepInmput = () => {
     if (inputValue !== "") {
-        const inputLength = inputValue.length - 1;
-        console.log(inputLength);
-        SetinputValue(inputValue.substring(0,inputValue.length - 1))
-        // SetinputValue('0')
-    }else{
+        if (inputValue == "error") {
+            SetinputValue('0')
+        }else{
+            SethandleZero(true)
+            const inputLength = inputValue.length - 1;
+            console.log("input length " + inputLength);
+            SetinputValue(inputValue.substring(0,inputValue.length - 1))
+            if(inputValue.length - 1 == 0){
+                SetinputValue('0')
+            }    
+        }
+    }
+    else{
         alert("input field is empty")
     }
 }
